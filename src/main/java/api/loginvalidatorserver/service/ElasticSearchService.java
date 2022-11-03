@@ -8,6 +8,7 @@ import javax.websocket.server.PathParam;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
@@ -45,11 +46,20 @@ public class ElasticSearchService
 		List<Customer> listOfCustomer = new ArrayList<>();
 		search.forEach(a->{listOfCustomer.add(a.getContent());});
 		return listOfCustomer;
+		
+		/* if using native-query aproach
+		 QueryBuilder queryBuilder = QueryBuilders.wildcardQuery("name", query+"*");
+
+		 Query searchQuery = new NativeSearchQueryBuilder().withFilter(queryBuilder)
+				 			.withPageable(PageRequest.of(0, 5))
+				 					.build();
+		 SearchHits<Customer> search = operations.search(query, Customer.class,IndexCoordinates.of("customer_index"));
+		*/
 	}
 	/*
-	 * Using Criteria
-	 * create criteria
-	 * create query
+	 * Using NativeQuery Aproach
+	 * create Query-Builder
+	 * create native query
 	 * search using ElasticSearchOpertaion.search(query,entity.class,indexName)
 	 */
 	public List<Customer> getByPhone(@PathParam("name") String name) 
@@ -62,6 +72,11 @@ public class ElasticSearchService
 		search.forEach(a->{listOfCustomer.add(a.getContent());});
 		return listOfCustomer;
 	}
+	/*
+	 * Using Query
+	 * create String Query
+	 * search using ElasticSearchOpertaion.search(query,entity.class,indexName)
+	 */
 	public List<Customer> findByProductName(final String productName)
 	{
 		String query = "{\"match\":{\"name\":{\"query\":\""+ productName + "\"}}}\"";
