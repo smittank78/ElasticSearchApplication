@@ -1,2 +1,0 @@
-# ElasticSearchApplication
-Elastic Search Application

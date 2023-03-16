@@ -1,0 +1,5 @@
+com\elastic\search\dto\Student.class
+com\elastic\search\repository\ElasticsearchCustomRepo.class
+com\elastic\search\controller\Controller.class
+com\elastic\search\config\ElasticsearchConfig.class
+com\elastic\search\ElasticSearchSmitApplication.class
